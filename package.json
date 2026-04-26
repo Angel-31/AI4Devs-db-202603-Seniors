@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "prisma:validate": "npm --prefix backend exec prisma validate --schema prisma/schema.prisma",
+    "prisma:generate": "npm --prefix backend exec prisma generate --schema prisma/schema.prisma",
+    "prisma:migrate:status": "npm --prefix backend exec prisma migrate status --schema prisma/schema.prisma"
+  },
   "dependencies": {
     "dotenv": "^16.4.5"
   },
