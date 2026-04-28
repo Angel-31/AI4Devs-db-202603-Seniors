@@ -91,7 +91,6 @@ model Employee {
 model Position {
   id                  Int           @id @default(autoincrement())
   companyId           Int           @map("company_id")
-  interviewFlowId     Int           @unique @map("interview_flow_id")
   title               String        @db.VarChar(255)
   description         String?       @db.Text
   status              String        @db.VarChar(50)
@@ -108,7 +107,7 @@ model Position {
   applicationDeadline DateTime?     @db.Date @map("application_deadline")
   contactInfo         String?       @db.VarChar(255) @map("contact_info")
   company             Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  interviewFlow       InterviewFlow @relation(fields: [interviewFlowId], references: [id], onDelete: Restrict)
+  interviewFlow       InterviewFlow?
   applications        Application[]
 
   @@index([companyId])
@@ -116,9 +115,10 @@ model Position {
 }
 
 model InterviewFlow {
-  id          Int             @id @default(autoincrement())
-  description String?         @db.Text
-  position    Position?
+  id          Int            @id @default(autoincrement())
+  positionId  Int            @unique @map("position_id")
+  description String?        @db.Text
+  position    Position       @relation(fields: [positionId], references: [id], onDelete: Cascade)
   steps       InterviewStep[]
 
   @@map("interview_flow")
