@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Candidate" (
+CREATE TABLE "candidate" (
     "id" SERIAL NOT NULL,
     "firstName" VARCHAR(100) NOT NULL,
     "lastName" VARCHAR(100) NOT NULL,
@@ -7,11 +7,11 @@ CREATE TABLE "Candidate" (
     "phone" VARCHAR(15),
     "address" VARCHAR(100),
 
-    CONSTRAINT "Candidate_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "candidate_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Education" (
+CREATE TABLE "education" (
     "id" SERIAL NOT NULL,
     "institution" VARCHAR(100) NOT NULL,
     "title" VARCHAR(250) NOT NULL,
@@ -19,11 +19,11 @@ CREATE TABLE "Education" (
     "endDate" TIMESTAMP(3),
     "candidateId" INTEGER NOT NULL,
 
-    CONSTRAINT "Education_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "education_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "WorkExperience" (
+CREATE TABLE "work_experience" (
     "id" SERIAL NOT NULL,
     "company" VARCHAR(100) NOT NULL,
     "position" VARCHAR(100) NOT NULL,
@@ -32,18 +32,18 @@ CREATE TABLE "WorkExperience" (
     "endDate" TIMESTAMP(3),
     "candidateId" INTEGER NOT NULL,
 
-    CONSTRAINT "WorkExperience_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "work_experience_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Resume" (
+CREATE TABLE "resume" (
     "id" SERIAL NOT NULL,
     "filePath" VARCHAR(500) NOT NULL,
     "fileType" VARCHAR(50) NOT NULL,
     "uploadDate" TIMESTAMP(3) NOT NULL,
     "candidateId" INTEGER NOT NULL,
 
-    CONSTRAINT "Resume_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "resume_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -123,7 +123,7 @@ CREATE TABLE "application" (
     "id" SERIAL NOT NULL,
     "position_id" INTEGER NOT NULL,
     "candidate_id" INTEGER NOT NULL,
-    "application_date" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "application_date" DATE NOT NULL DEFAULT CURRENT_DATE,
     "status" VARCHAR(50) NOT NULL,
     "notes" TEXT,
 
@@ -136,7 +136,7 @@ CREATE TABLE "interview" (
     "application_id" INTEGER NOT NULL,
     "interview_step_id" INTEGER NOT NULL,
     "employee_id" INTEGER NOT NULL,
-    "interview_date" DATE NOT NULL,
+    "interview_date" TIMESTAMP(3) NOT NULL,
     "result" VARCHAR(50),
     "score" INTEGER,
     "notes" TEXT,
@@ -145,7 +145,7 @@ CREATE TABLE "interview" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Candidate_email_key" ON "Candidate"("email");
+CREATE UNIQUE INDEX "candidate_email_key" ON "candidate"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "employee_email_key" ON "employee"("email");
@@ -181,13 +181,13 @@ CREATE INDEX "interview_interview_step_id_idx" ON "interview"("interview_step_id
 CREATE UNIQUE INDEX "interview_application_id_interview_step_id_key" ON "interview"("application_id", "interview_step_id");
 
 -- AddForeignKey
-ALTER TABLE "Education" ADD CONSTRAINT "Education_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "Candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "education" ADD CONSTRAINT "education_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WorkExperience" ADD CONSTRAINT "WorkExperience_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "Candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "work_experience" ADD CONSTRAINT "work_experience_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Resume" ADD CONSTRAINT "Resume_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "Candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "resume" ADD CONSTRAINT "resume_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "employee" ADD CONSTRAINT "employee_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -208,7 +208,7 @@ ALTER TABLE "interview_step" ADD CONSTRAINT "interview_step_interview_type_id_fk
 ALTER TABLE "application" ADD CONSTRAINT "application_position_id_fkey" FOREIGN KEY ("position_id") REFERENCES "position"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "application" ADD CONSTRAINT "application_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "Candidate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "application" ADD CONSTRAINT "application_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "interview" ADD CONSTRAINT "interview_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "application"("id") ON DELETE CASCADE ON UPDATE CASCADE;

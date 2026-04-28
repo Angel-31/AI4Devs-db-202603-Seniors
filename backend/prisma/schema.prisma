@@ -25,6 +25,8 @@ model Candidate {
   workExperiences   WorkExperience[]
   resumes           Resume[]
   applications      Application[]
+
+  @@map("candidate")
 }
 
 model Education {
@@ -35,6 +37,8 @@ model Education {
   endDate       DateTime?
   candidateId   Int
   candidate     Candidate @relation(fields: [candidateId], references: [id])
+
+  @@map("education")
 }
 
 model WorkExperience {
@@ -46,6 +50,8 @@ model WorkExperience {
   endDate     DateTime?
   candidateId Int
   candidate   Candidate @relation(fields: [candidateId], references: [id])
+
+  @@map("work_experience")
 }
 
 model Resume {
@@ -55,6 +61,8 @@ model Resume {
   uploadDate  DateTime
   candidateId Int
   candidate   Candidate @relation(fields: [candidateId], references: [id])
+
+  @@map("resume")
 }
 
 model Company {
@@ -144,7 +152,7 @@ model Application {
   id              Int         @id @default(autoincrement())
   positionId      Int         @map("position_id")
   candidateId     Int         @map("candidate_id")
-  applicationDate DateTime    @default(now()) @db.Date @map("application_date")
+  applicationDate DateTime    @default(now()) @map("application_date")
   status          String      @db.VarChar(50)
   notes           String?     @db.Text
   position        Position    @relation(fields: [positionId], references: [id], onDelete: Cascade)
@@ -161,7 +169,7 @@ model Interview {
   applicationId   Int           @map("application_id")
   interviewStepId Int           @map("interview_step_id")
   employeeId      Int           @map("employee_id")
-  interviewDate   DateTime      @db.Date @map("interview_date")
+  interviewDate   DateTime      @db.Timestamptz(6) @map("interview_date")
   result          String?       @db.VarChar(50)
   score           Int?
   notes           String?       @db.Text

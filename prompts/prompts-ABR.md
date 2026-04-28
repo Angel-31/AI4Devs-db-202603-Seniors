@@ -2,7 +2,7 @@
 
 ## Prompt 1 - Solicitud del usuario
 
-Sobre el proyecto `A4Devs-db-202603-Seniors`:
+Sobre el proyecto `AI4Devs-db-202603-Seniors`:
 
 - Actualizar la base de datos con las nuevas entidades que permitan operar el flujo completo de aplicación para diversas posiciones.
 - Convertir el ERD en formato Mermaid (adjunto) a un script SQL.
